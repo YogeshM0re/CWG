@@ -1,0 +1,28 @@
+.btn.bg-purple-400 {
+    background: #845ec2;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
+
+  .btn.bg-purple-400:hover {
+    background: linear-gradient(45deg, #faacb9, #fcb1d0, #d7bffc, #bbb3f9);
+    color: black;
+    animation: colorTransition 1s ease infinite;
+  }
+
+  @keyframes colorTransition {
+    0% {
+      filter: hue-rotate(0deg);
+    }
+
+    100% {
+      filter: hue-rotate(360deg);
+    }
+  }
+  
+
+  
+  

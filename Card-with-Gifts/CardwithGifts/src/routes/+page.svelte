@@ -1,5 +1,5 @@
 <script>
-// @ts-nocheck
+  // @ts-nocheck
 
   import { loggedIn, username } from "../lib/stores";
   import { goto } from "$app/navigation";
@@ -83,7 +83,7 @@
       </label>
 
       <label class="flex flex-col">
-        <span class="text-gray-700 mb-2 text-lg">Phone</span>
+        <span class="text-gray-700 mb-2 text-lg">Password</span>
         <input
           bind:value={inputPhone}
           class="input w-64 rounded-lg py-3 px-4 bg-white"
@@ -124,28 +124,5 @@
 </div>
 
 <style>
-  .btn.bg-purple-400 {
-    background: #845ec2;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    transition: background 0.3s;
-  }
-
-  .btn.bg-purple-400:hover {
-    background: linear-gradient(45deg, #faacb9, #fcb1d0, #d7bffc, #bbb3f9);
-    color: black;
-    animation: colorTransition 1s ease infinite;
-  }
-
-  @keyframes colorTransition {
-    0% {
-      filter: hue-rotate(0deg);
-    }
-
-    100% {
-      filter: hue-rotate(360deg);
-    }
-  }
+   @import '../routes/global.css';
 </style>
