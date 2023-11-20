@@ -35,6 +35,7 @@ const schema = yup.object().shape({
   zipCode: yup.string().matches(/^\d{6}$/, "Zip Code must be a 6-digit number"),
 });
 
+//------------------------- Register new user -------------------------
 app.post("/api/register", async (req, res) => {
   try {
     await schema.validate(req.body, { abortEarly: false });
@@ -82,6 +83,40 @@ app.post("/api/register", async (req, res) => {
       return res.status(400).json({ errors: validationErrors });
     } else {
       console.error("Error processing registration:", error);
+      return res.status(500).send("Internal Server Error");
+    }
+  }
+});
+
+//------------------------- Login user -------------------------
+
+const loginSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  phone: yup.string().required("Password is required"),
+});
+
+app.post("/api/login", async (req, res) => {
+  try {
+    await loginSchema.validate(req.body, { abortEarly: false });
+
+    const { email, phone } = req.body;
+
+    const user = await pool.query(
+      "SELECT * FROM users WHERE email = $1 AND phone = $2",
+      [email, phone]
+    );
+
+    if (user.rows.length === 0) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    res.status(200).json({ message: "Login successful", user: user.rows[0] });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      const validationErrors = error.errors;
+      return res.status(400).json({ errors: validationErrors });
+    } else {
+      console.error("Error processing login:", error);
       return res.status(500).send("Internal Server Error");
     }
   }
