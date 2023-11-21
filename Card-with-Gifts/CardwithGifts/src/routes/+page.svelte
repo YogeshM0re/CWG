@@ -1,7 +1,7 @@
 <script>
   // @ts-nocheck
 
-  import { loggedIn, username,userId } from "../lib/stores";
+  import { loggedIn, username, userId } from "../lib/stores";
   import { goto } from "$app/navigation";
 
   let user = { email: "", phone: "" };
@@ -66,8 +66,8 @@
 
   //---------- Function to handle the "Forgot Password?" ----------
 
-  let forgottenEmail = "acumen@gmail.com";
-  let forgottenPhone = "8097852032";
+  let forgottenEmail = "cc@gmail.com";
+  let forgottenPhone = "8035203029";
   function handleForgotPassword() {
     inputEmail = forgottenEmail;
     inputPhone = forgottenPhone;
@@ -116,8 +116,12 @@
     <div class="flex flex-col mt-6 space-y-4">
       <a
         on:click|preventDefault={handleForgotPassword}
-        class="text-black text-center hover:underline">Forgot Password?</a
+        role="button"
+        href="./"
+        class="text-black text-center hover:underline"
       >
+        Forgot Password?
+      </a>
 
       <p class="text-center mt-6">
         Don't have an account?

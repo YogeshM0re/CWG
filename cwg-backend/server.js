@@ -125,6 +125,65 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.post("/api/addCard", async (req, res) => {
+  try {
+    const userId = req.user.id; // Change this based on your authentication setup
+
+    await cardSchema.validate(req.body, { abortEarly: false });
+
+    const {
+      Occasion,
+      Recipient,
+      Orientation,
+      Publisher_Sku,
+      CardwithGift_Sku,
+      Created_Date,
+      Modified_Date,
+      Activation_Date,
+      Deactivation_Date,
+      Front,
+      Inside_Left,
+      Inside_Right,
+      Back,
+      Uploaded_By,
+      Status,
+    } = req.body;
+
+    const result = await pool.query(
+      "INSERT INTO cards (user_id, Occasion, Recipient, Orientation, Publisher_Sku, CardwithGift_Sku, Created_Date, Modified_Date, Activation_Date, Deactivation_Date, Front, Inside_Left, Inside_Right, Back, Uploaded_By, Status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *",
+      [
+        userId,
+        Occasion,
+        Recipient,
+        Orientation,
+        Publisher_Sku,
+        CardwithGift_Sku,
+        Created_Date,
+        Modified_Date,
+        Activation_Date,
+        Deactivation_Date,
+        Front,
+        Inside_Left,
+        Inside_Right,
+        Back,
+        Uploaded_By,
+        Status,
+      ]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error adding card:", error);
+    if (error.name === "ValidationError") {
+      const validationErrors = error.errors;
+      return res.status(400).json({ errors: validationErrors });
+    } else {
+      res.status(500).send("Internal Server Error");
+    }
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
