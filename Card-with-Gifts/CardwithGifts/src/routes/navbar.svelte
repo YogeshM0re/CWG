@@ -1,5 +1,5 @@
 <script>
-  import { loggedIn, username } from "../lib/stores";
+  import { loggedIn, username, userId } from "../lib/stores"; 
 </script>
 
 <div class="custom-navbar shadow-md"
@@ -21,8 +21,8 @@
           <p style="margin: 0;">
               <span style="font-weight: bold; color: black;">Welcome Publisher</span>
               <span style="color: grey;">{$username}</span><br />
-              <span style="color: black;">Publisher ID: 01</span>
-          </p>
+              <span style="color: black;">Publisher ID: {$userId}</span> 
+            </p>
       </div>
       {/if}
   </div>

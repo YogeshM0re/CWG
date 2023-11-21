@@ -13,6 +13,8 @@
   let state = "";
   let zipCode = "";
 
+  //--------------- Validations ---------------
+
   const schema = yup.object().shape({
     companyName: yup
       .string()
@@ -47,6 +49,8 @@
     zipCode: "",
   };
 
+  //---------- Function to handle register new user ----------
+
   async function handleSubmit() {
     try {
       await schema.validate(
@@ -75,8 +79,7 @@
         zipCode,
       };
 
-      // Make an API call to your backend
-      const response = await fetch("http://localhost:3000/api/register", {
+      const response = await fetch("http://localhost:4000/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,6 +118,8 @@
 
     $: void errors;
   }
+
+  //--------------- Rese tForm ---------------
 
   function resetForm() {
     companyName = "";
@@ -284,6 +289,4 @@
   .center-button {
     text-align: center;
   }
-
-
 </style>

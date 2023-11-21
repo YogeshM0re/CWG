@@ -3,14 +3,16 @@ const bodyParser = require("body-parser");
 const { Pool } = require("pg");
 const cors = require("cors");
 const yup = require("yup");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 4000;
 app.use(cors());
 
 const pool = new Pool({
-  connectionString:
-    "postgresql://postgres:Cybercraft@123@140.238.224.69:5432/cardwithgifts",
+  connectionString: process.env.DATABASE_URL,
 });
 
 app.use(bodyParser.json());

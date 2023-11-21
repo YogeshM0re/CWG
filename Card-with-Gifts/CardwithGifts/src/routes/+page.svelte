@@ -1,7 +1,7 @@
 <script>
   // @ts-nocheck
 
-  import { loggedIn, username } from "../lib/stores";
+  import { loggedIn, username,userId } from "../lib/stores";
   import { goto } from "$app/navigation";
 
   let user = { email: "", phone: "" };
@@ -9,6 +9,8 @@
   let inputPhone = "";
   let errorMessage = "";
   let showError = false;
+
+  //--------------- Function to login user ---------------
 
   async function handleLogin() {
     if (!inputEmail || !inputPhone) {
@@ -21,7 +23,7 @@
     user.phone = inputPhone;
 
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch("http://localhost:4000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +37,8 @@
         const data = await response.json();
         loggedIn.set(true);
         username.set(data.user.email);
+        userId.set(data.user.id);
+
         goto("/dashboard");
       } else {
         const data = await response.json();
@@ -59,8 +63,10 @@
       showError = true;
     }
   }
-  // Function to handle the "Forgot Password?" link click
-  let forgottenEmail = "acumen@gmail.com"; 
+
+  //---------- Function to handle the "Forgot Password?" ----------
+
+  let forgottenEmail = "acumen@gmail.com";
   let forgottenPhone = "8097852032";
   function handleForgotPassword() {
     inputEmail = forgottenEmail;
@@ -108,8 +114,10 @@
     </form>
 
     <div class="flex flex-col mt-6 space-y-4">
-      <a on:click|preventDefault={handleForgotPassword} class="text-black text-center hover:underline">Forgot Password?</a>
-
+      <a
+        on:click|preventDefault={handleForgotPassword}
+        class="text-black text-center hover:underline">Forgot Password?</a
+      >
 
       <p class="text-center mt-6">
         Don't have an account?
