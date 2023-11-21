@@ -91,7 +91,7 @@
       "fileType",
       "Invalid file format. Only PNG or JPG allowed.",
       (value) => {
-        if (!value) return true; // If no file is selected, it's not an error
+        if (!value) return true; 
         const fileType = value.type;
         return (
           fileType === "image/png" ||
@@ -101,7 +101,7 @@
       }
     );
 
-  let imageErrors = {}; // Define an object to hold image-related errors
+  let imageErrors = {}; 
 
   function handleImageSelect(event, imageType) {
     const file = event.target.files[0];
@@ -114,13 +114,11 @@
             newCard[imageType] = reader.result;
           };
           reader.readAsDataURL(file);
-          // Clear the error message for the specific image type when valid
           imageErrors[imageType] = "";
         })
         .catch((error) => {
           console.error("Image validation error:", error.message);
           event.target.value = null;
-          // Set an error message for the specific image type when validation fails
           imageErrors[imageType] =
             "Invalid file format. Only PNG or JPG allowed.";
         });
@@ -179,13 +177,6 @@
 <div class="container">
   <div class="dashboard">
     {#if showCatalog}
-      <!-- <div
-        class="user-info card bg-gradient-to-r from-purple-500 to-indigo-600 p-6 rounded-lg shadow-lg mb-6"
-      >
-        <h2 class="text-3xl font-bold text-white">Welcome, {user.username}!</h2>
-        <p class="text-gray-300">Email: {user.email}</p>
-        <button class="button-primary mt-4" on:click={logout}>Logout</button>
-      </div> -->
 
       <!--------------------------------------- action-links ---------------------------------------->
       <div class="action-links-header">

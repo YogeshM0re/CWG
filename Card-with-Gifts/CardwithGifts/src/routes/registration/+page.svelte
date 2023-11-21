@@ -14,15 +14,27 @@
   let zipCode = "";
 
   const schema = yup.object().shape({
-    companyName: yup.string().min(3, 'Company Name must be at least 3 characters').max(30, 'Company Name must be at most 30 characters'),
-    phone: yup.string().matches(/^\d{10}$/, 'Phone must be a 10-digit number'),
-    phoneType: yup.string().oneOf(['mobile', 'landline', 'others'], 'Invalid Phone Type').required('Phone Type is required'),
-    email: yup.string().email('Invalid email').required('Email is required'),
-    streetAddress: yup.string().min(10, 'Street Address must be at least 10 characters').max(200, 'Street Address must be at most 200 characters').required('Street Address is required'),
-    city: yup.string().required('City is required'),
-    state: yup.string().required('State is required'),
-    zipCode: yup.string().matches(/^\d{6}$/, 'Zip Code must be a 6-digit number'),
-});
+    companyName: yup
+      .string()
+      .min(3, "Company Name must be at least 3 characters")
+      .max(30, "Company Name must be at most 30 characters"),
+    phone: yup.string().matches(/^\d{10}$/, "Phone must be a 10-digit number"),
+    phoneType: yup
+      .string()
+      .oneOf(["mobile", "landline", "others"], "Invalid Phone Type")
+      .required("Phone Type is required"),
+    email: yup.string().email("Invalid email").required("Email is required"),
+    streetAddress: yup
+      .string()
+      .min(10, "Street Address must be at least 10 characters")
+      .max(200, "Street Address must be at most 200 characters")
+      .required("Street Address is required"),
+    city: yup.string().required("City is required"),
+    state: yup.string().required("State is required"),
+    zipCode: yup
+      .string()
+      .matches(/^\d{6}$/, "Zip Code must be a 6-digit number"),
+  });
 
   let errors = {
     companyName: "",
@@ -37,65 +49,64 @@
 
   async function handleSubmit() {
     try {
-        await schema.validate(
-            {
-                companyName,
-                phone,
-                phoneType,
-                email,
-                streetAddress,
-                city,
-                state,
-                zipCode,
-            },
-            { abortEarly: false }
-        );
+      await schema.validate(
+        {
+          companyName,
+          phone,
+          phoneType,
+          email,
+          streetAddress,
+          city,
+          state,
+          zipCode,
+        },
+        { abortEarly: false }
+      );
 
-        const formData = {
-            companyName,
-            phone,
-            phoneType,
-            email,
-            streetAddress,
-            address2,
-            city,
-            state,
-            zipCode,
-        };
+      const formData = {
+        companyName,
+        phone,
+        phoneType,
+        email,
+        streetAddress,
+        address2,
+        city,
+        state,
+        zipCode,
+      };
 
-        // Make an API call to your backend
-        const response = await fetch('http://localhost:3000/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
+      // Make an API call to your backend
+      const response = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-        if (response.ok) {
-    const result = await response.json();
-    console.log('Registration successful:', result);
-    
-    resetForm();
-} else {
-    const errorResponse = await response.json(); 
-    console.error('Registration failed:', errorResponse);
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Registration successful:", result);
 
-    if (errorResponse.error === 'Email is already registered') {
-        errors.email = errorResponse.error;
-    }
-}
+        resetForm();
+      } else {
+        const errorResponse = await response.json();
+        console.error("Registration failed:", errorResponse);
 
+        if (errorResponse.error === "Email is already registered") {
+          errors.email = errorResponse.error;
+        }
+      }
     } catch (error) {
-        error.inner.forEach((e) => {
-            errors[e.path] = e.message;
-        });
+      error.inner.forEach((e) => {
+        errors[e.path] = e.message;
+      });
 
-        $: void errors;
+      $: void errors;
 
-        console.error('Validation Error:', error.errors);
+      console.error("Validation Error:", error.errors);
     }
-}
+  }
 
   function handleInput(event, field) {
     eval(`${field} = event.target.value`);
@@ -217,7 +228,7 @@
     {#if errors.zipCode}<p class="error-message">{errors.zipCode}</p>{/if}
 
     <div class="center-button">
-      <button type="submit">Register</button>
+      <button class="login-register-button" type="submit">Register</button>
       <p class="text-center mt-6">
         Already have an account?
         <a
@@ -234,10 +245,11 @@
 </main>
 
 <style>
+  @import "../global.css";
+
   .registration-form {
     max-width: 400px;
     margin: 0 auto;
-
     background: linear-gradient(#f5ddda, #d5eaf5);
     margin-top: 20px;
     margin-bottom: 20px;
@@ -273,36 +285,5 @@
     text-align: center;
   }
 
-  button {
-    background: #845ec2;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    transition: background 0.3s;
-    margin-top: 15px;
-    cursor: pointer;
-  }
 
-  button:hover {
-    background: linear-gradient(45deg, #faacb9, #fcb1d0, #d7bffc, #bbb3f9);
-    color: black;
-    animation: colorTransition 1s ease infinite;
-  }
-
-  @keyframes colorTransition {
-    0% {
-      filter: hue-rotate(0deg);
-    }
-
-    100% {
-      filter: hue-rotate(360deg);
-    }
-  }
-
-  .error-message {
-    color: #ff0000;
-    font-size: 0.9em;
-    margin-top: 0.1px;
-  }
 </style>

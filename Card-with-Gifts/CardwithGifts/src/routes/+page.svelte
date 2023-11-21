@@ -59,6 +59,13 @@
       showError = true;
     }
   }
+  // Function to handle the "Forgot Password?" link click
+  let forgottenEmail = "acumen@gmail.com"; 
+  let forgottenPhone = "8097852032";
+  function handleForgotPassword() {
+    inputEmail = forgottenEmail;
+    inputPhone = forgottenPhone;
+  }
 </script>
 
 <div class="container mx-auto p-2 flex justify-center items-center h-screen">
@@ -95,18 +102,14 @@
         <p class="text-red-500 text-center mt-2">{errorMessage}</p>
       {/if}
 
-      <button
-        type="submit"
-        class="btn bg-purple-400 text-white py-2 rounded-lg hover:bg-purple-800"
-      >
+      <button type="submit" class="login-register-button bg-purple-400">
         Login
       </button>
     </form>
 
     <div class="flex flex-col mt-6 space-y-4">
-      <a href="/" class="text-black text-center hover:underline"
-        >Forgot Password?</a
-      >
+      <a on:click|preventDefault={handleForgotPassword} class="text-black text-center hover:underline">Forgot Password?</a>
+
 
       <p class="text-center mt-6">
         Don't have an account?
@@ -124,5 +127,5 @@
 </div>
 
 <style>
-   @import '../routes/global.css';
+  @import "../routes/global.css";
 </style>
