@@ -2,6 +2,7 @@
   // @ts-nocheck
 
   import * as yup from "yup";
+  import { goto } from "$app/navigation";
 
   let companyName = "";
   let phone = "";
@@ -12,6 +13,9 @@
   let city = "";
   let state = "";
   let zipCode = "";
+
+  // State for success message
+  let registrationSuccess = false;
 
   //--------------- Validations ---------------
 
@@ -91,7 +95,13 @@
         const result = await response.json();
         console.log("Registration successful:", result);
 
-        resetForm();
+        registrationSuccess = true;
+
+        setTimeout(() => {
+          registrationSuccess = false;
+          resetForm();
+          goto("/");
+        }, 3000);
       } else {
         const errorResponse = await response.json();
         console.error("Registration failed:", errorResponse);
@@ -119,7 +129,7 @@
     $: void errors;
   }
 
-  //--------------- Rese tForm ---------------
+  //--------------- Reset Form ---------------
 
   function resetForm() {
     companyName = "";
@@ -148,6 +158,11 @@
 <main>
   <form on:submit|preventDefault={handleSubmit} class="registration-form">
     <h2>Request An Account</h2>
+    {#if registrationSuccess}
+      <p class="success-message">
+        Registration successful! Redirecting to login page...
+      </p>
+    {/if}
     <label for="companyName">Company Name:</label>
     <input
       type="text"
@@ -233,7 +248,14 @@
     {#if errors.zipCode}<p class="error-message">{errors.zipCode}</p>{/if}
 
     <div class="center-button">
-      <button class="login-register-button" type="submit">Register</button>
+      {#if registrationSuccess}
+        <button class="login-register-button" disabled>Registering...</button>
+        <p class="success-message">
+          Registration successful! Redirecting to login page...
+        </p>
+      {:else}
+        <button class="login-register-button" type="submit">Register</button>
+      {/if}
       <p class="text-center mt-6">
         Already have an account?
         <a
@@ -288,5 +310,40 @@
 
   .center-button {
     text-align: center;
+  }
+  .success-message {
+    color: #4caf50;
+    text-align: center;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInOut 1.5s ease-out forwards, moveUp 1.5s ease-out forwards;
+
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes moveUp {
+    0% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0);
+    }
   }
 </style>
