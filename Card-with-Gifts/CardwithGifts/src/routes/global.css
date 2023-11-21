@@ -1,13 +1,15 @@
-.btn.bg-purple-400 {
+.login-register-button {
     background: #845ec2;
     color: white;
     padding: 8px 16px;
     border: none;
     border-radius: 8px;
     transition: background 0.3s;
+    margin-top: 15px;
+
   }
 
-  .btn.bg-purple-400:hover {
+  .login-register-button:hover {
     background: linear-gradient(45deg, #faacb9, #fcb1d0, #d7bffc, #bbb3f9);
     color: black;
     animation: colorTransition 1s ease infinite;
@@ -23,6 +25,11 @@
     }
   }
   
+  .error-message {
+    color: #ff0000;
+    font-size: 0.9em;
+    margin-top: 0.1px;
+  }
 
   
   
